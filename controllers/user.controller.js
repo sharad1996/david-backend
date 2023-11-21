@@ -2,13 +2,17 @@ const User = require("../models/user.model");
 
 exports.getUser = (req, res, next) => {
   try {
-    User.find().then((result) => {
-      console.log(result);
-      res.status(200).json({
-        message: "Item added Succesfully",
-        result,
+    const currentDate = new Date();
+
+    User.find()
+      .sort({ date: +1 })
+      .then((result) => {
+        console.log(result);
+        res.status(200).json({
+          message: "Item added Succesfully",
+          result,
+        });
       });
-    });
   } catch (error) {
     next(error);
     console.log(error);
