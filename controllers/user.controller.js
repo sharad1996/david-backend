@@ -3,8 +3,9 @@ const User = require("../models/user.model");
 exports.getUser = (req, res, next) => {
   try {
     User.find().then((result) => {
+      console.log(result);
       res.status(200).json({
-        message: "success 121",
+        message: "Item added Succesfully",
         result,
       });
     });
@@ -18,9 +19,11 @@ exports.createUser = (req, res, next) => {
   console.log(req);
 
   const user = new User({
-    firstName: req.body?.firstName,
-    lastName: req.body?.lastName,
-    role: req.body?.role,
+    fName: req.body?.fName,
+    lName: req.body?.lName,
+    city: req.body?.city,
+    date: req.body?.date,
+    country: req.body?.country,
   });
   user
     .save()
@@ -31,6 +34,7 @@ exports.createUser = (req, res, next) => {
       });
     })
     .catch((error) => {
+      console.log(error, "///error");
       if (!error.statusCode) {
         error.statusCode = 500;
       }
