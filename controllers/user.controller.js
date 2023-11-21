@@ -70,12 +70,7 @@ exports.createUser = (req, res, next) => {
           });
       } else {
         res.status(403).json({
-          message: [
-            "User is exits",
-            "First Name should we uniq",
-            "Last Name should we uniq",
-            "City Name should we uniq",
-          ],
+          message: "User should be Unique",
         });
       }
     })
