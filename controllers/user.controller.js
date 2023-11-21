@@ -19,6 +19,21 @@ exports.getUser = (req, res, next) => {
   }
 };
 
+exports.getUserById = (req, res, next) => {
+  const { id } = req.params;
+  try {
+    User.findById(id).then((result) => {
+      console.log(result);
+      res.status(200).json({
+        result,
+      });
+    });
+  } catch (error) {
+    next(error);
+    console.log(error);
+  }
+};
+
 exports.createUser = (req, res, next) => {
   console.log(req);
 
