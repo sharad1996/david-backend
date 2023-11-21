@@ -36,24 +36,50 @@ exports.getUserById = (req, res, next) => {
 
 exports.createUser = (req, res, next) => {
   console.log(req);
+  const { fName, lName, city, date, country } = req.body;
 
-  const user = new User({
-    fName: req.body?.fName,
-    lName: req.body?.lName,
-    city: req.body?.city,
-    date: req.body?.date,
-    country: req.body?.country,
-  });
-  user
-    .save()
-    .then((result) => {
-      console.log(result);
-      res.status(200).json({
-        data: result,
-      });
+  User.find({
+    fName,
+    lName,
+    city,
+  })
+    .then((user) => {
+      console.log(user);
+      if (!user.length) {
+        const user = new User({
+          fName,
+          lName,
+          city,
+          date,
+          country,
+        });
+        user
+          .save()
+          .then((result) => {
+            console.log(result);
+            res.status(200).json({
+              data: result,
+            });
+          })
+          .catch((error) => {
+            console.log(error, "///error");
+            if (!error.statusCode) {
+              error.statusCode = 500;
+            }
+            next(next);
+          });
+      } else {
+        res.status(403).json({
+          message: [
+            "User is exits",
+            "First Name should we uniq",
+            "Last Name should we uniq",
+            "City Name should we uniq",
+          ],
+        });
+      }
     })
     .catch((error) => {
-      console.log(error, "///error");
       if (!error.statusCode) {
         error.statusCode = 500;
       }
